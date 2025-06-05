@@ -17,7 +17,7 @@ nome VARCHAR(100),
 raridade VARCHAR(100),
 img VARCHAR(200)
 );
-INSERT INTO cartas (id, nome, raridade, img) VALUES
+INSERT INTO cards (id, nome, raridade, img) VALUES
 (1, 'Vinlándia', 'Épica', 'cartas/vinlandia_epico.jpg'),
 (2, 'Por do Sol','Rara', 'cartas/sol_rara.jpg'),
 (3, 'Plantio','Comum', 'cartas/plantio_comum.jpg'),
