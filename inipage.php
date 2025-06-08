@@ -263,7 +263,7 @@ if (isset($_SESSION['id'])) {
             });
           }
 
-          // --- LÓGICA DO CHATBOT (ADAPTADA DE pedidos.php) ---
+         
           function appendMessage(html, sender, messageId = null) {
               const messageDiv = document.createElement('div');
               messageDiv.className = `message ${sender}-message`;
