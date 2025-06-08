@@ -42,16 +42,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $especie = trim($_POST['especie'] ?? '');
         $pagamento = $_POST['pagamento'] ?? '';
         if ($localidade && $especie && $pagamento && ($kit == '2' || $kit == '5')) {
-            // Insere na tabela pedidos
-            $nome_pedido = $kit == '2' ? 'Kit Sementes Raras' : 'Kit Floresta Diversa';
+            // Buscar nome e imagem da árvore escolhida
+            $sql_arvore = "SELECT nome, img FROM arvores WHERE localidade = ? AND especie = ? LIMIT 1";
+            $stmt_arvore = $conexao->prepare($sql_arvore);
+            $stmt_arvore->bind_param("ss", $localidade, $especie);
+            $stmt_arvore->execute();
+            $result_arvore = $stmt_arvore->get_result();
+            $nome_pedido = '';
+            $img_pedido = '';
+            if ($row_arvore = $result_arvore->fetch_assoc()) {
+                $nome_pedido = $row_arvore['nome'];
+                $img_pedido = $row_arvore['img'];
+            }
+            $stmt_arvore->close();
+
             $status = 'Aguardando processamento';
-            $img_pedido = 'NULL'; 
             $id_user_escaped = $conexao->real_escape_string($id_user);
             $nome_pedido_escaped = $conexao->real_escape_string($nome_pedido);
             $especie_escaped = $conexao->real_escape_string($especie);
             $localidade_escaped = $conexao->real_escape_string($localidade);
             $status_escaped = $conexao->real_escape_string($status);
             $img_escaped = $conexao->real_escape_string($img_pedido);
+
             $sql_pedido = "INSERT INTO pedidos (id_user, nome, especie, localidade, data_pedido, status, img)
                 VALUES ('$id_user_escaped', '$nome_pedido_escaped', '$especie_escaped', '$localidade_escaped', NOW(), '$status_escaped', '$img_escaped')";
             $conexao->query($sql_pedido);
@@ -748,7 +760,7 @@ if ($result_todes) {
         <div class="nav-container">
             <a href="inipage.php" class="logo">Treedom</a>
             <ul class="nav-links">
-                <li><a href="inipage.php#work">Nosso Trabalho</a></li>
+                <li><a href="pedidos.php">Minhas Compras</a></li>
                 <li><a href="inipage.php#about">Sobre</a></li>
                 <li><a href="loja.php">Loja de Árvores</a></li>
                 <li class="dropdown">
@@ -782,22 +794,22 @@ if ($result_todes) {
                 <div class="store-item">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPSnpzOOJ_IIWn5ulOjQRCCZnd1S8b7ri4sQ&s" alt="Kit de Plantio de Árvores" class="store-item-image">
                     <div class="store-item-details">
-                        <h3>Kit Sementes Raras</h3>
-                        <p class="store-item-description">Adquira este kit para cultivar 2 árvores e adicioná-las ao seu bosque!</p>
+                        <h3>Sementes Raras</h3>
+                        <p class="store-item-description">Compre uma árvore e ganhe 2 cartas para seu bosque</p>
                         <p class="store-item-price">Preço: <span>R$20</span></p>
                         <form action="loja.php#newly-acquired" method="post" class="form-kit">
-                            <button type="submit" name="ganhar" class="btn btn-buy">Adquirir Kit</button>
+                            <button type="submit" name="ganhar" class="btn btn-buy">Adquirir árvore</button>
                         </form>
                     </div>
                 </div>
                 <div class="store-item">
                     <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Kit Floresta Diversa" class="store-item-image">
                     <div class="store-item-details">
-                        <h3>Kit Floresta Diversa</h3>
-                        <p class="store-item-description">Receba 5 árvores diferentes para enriquecer ainda mais seu bosque!</p>
+                        <h3>Floresta Diversa</h3>
+                        <p class="store-item-description">Receba 5 cartas diferentes para enriquecer ainda mais seu bosque!</p>
                         <p class="store-item-price">Preço: <span>R$50</span></p>
                         <form action="loja.php#newly-acquired" method="post" class="form-kit">
-                            <button type="submit" name="ganhar5" class="btn btn-buy">Adquirir Kit Floresta</button>
+                            <button type="submit" name="ganhar5" class="btn btn-buy">Adquirir Floresta</button>
                         </form>
                     </div>
                 </div>
