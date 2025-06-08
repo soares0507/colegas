@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 07-Jun-2025 às 21:11
+-- Tempo de geração: 08-Jun-2025 às 22:36
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -31,19 +31,20 @@ CREATE TABLE `arvores` (
   `id` int(11) NOT NULL,
   `localidade` varchar(100) DEFAULT NULL,
   `especie` varchar(50) DEFAULT NULL,
-  `nome` varchar(100) DEFAULT NULL
+  `nome` varchar(100) DEFAULT NULL,
+  `img` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `arvores`
 --
 
-INSERT INTO `arvores` (`id`, `localidade`, `especie`, `nome`) VALUES
-(6, 'Cerrado', 'Ipê-amarelo', NULL),
-(7, 'Mata Atlântica', 'Pau-brasil', NULL),
-(8, 'Cerrado/Mata Atlântica', 'Jatobá', NULL),
-(9, 'Mata Atlântica', 'Jequitibá-rosa', NULL),
-(10, 'Amazônia', 'Copaíba', NULL);
+INSERT INTO `arvores` (`id`, `localidade`, `especie`, `nome`, `img`) VALUES
+(6, 'Cerrado', 'Ipê-amarelo', NULL, NULL),
+(7, 'Mata Atlântica', 'Pau-brasil', 'ababa', 'cartas/vinlandia_epico.jpg'),
+(8, 'Cerrado/Mata Atlântica', 'Jatobá', NULL, NULL),
+(9, 'Mata Atlântica', 'Jequitibá-rosa', NULL, NULL),
+(10, 'Amazônia', 'Copaíba', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -82,7 +83,7 @@ INSERT INTO `cards` (`id`, `nome`, `raridade`, `img`) VALUES
 --
 
 CREATE TABLE `pedidos` (
-  `id` int(11) NOT NULL,
+  `id_pedido` int(11) NOT NULL,
   `id_user` int(11) DEFAULT NULL,
   `nome` varchar(100) DEFAULT NULL,
   `especie` varchar(100) DEFAULT NULL,
@@ -96,8 +97,12 @@ CREATE TABLE `pedidos` (
 -- Extraindo dados da tabela `pedidos`
 --
 
-INSERT INTO `pedidos` (`id`, `id_user`, `nome`, `especie`, `localidade`, `data_pedido`, `status`, `img`) VALUES
-(1, 1, 'Kit Sementes Raras', 'Pau-brasil', 'Mata Atlântica', '2025-06-07', 'Aguardando processamento', 'NULL');
+INSERT INTO `pedidos` (`id_pedido`, `id_user`, `nome`, `especie`, `localidade`, `data_pedido`, `status`, `img`) VALUES
+(1, 1, 'Kit Sementes Raras', 'Pau-brasil', 'Mata Atlântica', '2025-06-07', 'Aguardando processamento', 'cartas/vinlandia_epico.jpg'),
+(5, 1, 'Kit Sementes Raras', 'Copaíba', 'Amazônia', '2025-06-08', 'Aguardando processamento', 'NULL'),
+(6, 1, 'Kit Floresta Diversa', 'Ipê-amarelo', 'Cerrado', '2025-06-08', 'Aguardando processamento', 'NULL'),
+(7, 1, 'Kit Floresta Diversa', 'Jequitibá-rosa', 'Mata Atlântica', '2025-06-08', 'Aguardando processamento', 'NULL'),
+(13, 1, 'ababa', 'Pau-brasil', 'Mata Atlântica', '2025-06-08', 'Aguardando processamento', 'cartas/vinlandia_epico.jpg');
 
 -- --------------------------------------------------------
 
@@ -163,7 +168,29 @@ INSERT INTO `user_cards` (`id`, `id_user`, `id_card`) VALUES
 (45, 1, 4),
 (46, 1, 8),
 (47, 1, 2),
-(48, 1, 8);
+(48, 1, 8),
+(49, 1, 3),
+(50, 1, 5),
+(51, 1, 5),
+(52, 1, 10),
+(53, 1, 9),
+(54, 1, 3),
+(55, 1, 6),
+(56, 1, 10),
+(57, 1, 2),
+(58, 1, 1),
+(59, 1, 9),
+(60, 1, 3),
+(61, 1, 6),
+(62, 1, 2),
+(63, 1, 1),
+(64, 1, 11),
+(65, 1, 8),
+(66, 1, 8),
+(67, 1, 4),
+(68, 1, 2),
+(69, 1, 7),
+(70, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -205,7 +232,7 @@ ALTER TABLE `cards`
 -- Índices para tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_pedido`);
 
 --
 -- Índices para tabela `user_cards`
@@ -239,13 +266,13 @@ ALTER TABLE `cards`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `user_cards`
 --
 ALTER TABLE `user_cards`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`
